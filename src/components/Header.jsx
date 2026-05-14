@@ -7,16 +7,13 @@ import {
     Undo2,
     Redo2,
     MousePointer2,
-    RectangleHorizontal,
+    Move,
+    Pencil,
     Grid3x3,
-    Home,
     Download,
     Command,
     FilePlus,
-    ZoomIn,
-    ZoomOut,
-    Maximize,
-    Upload
+    Upload,
 } from 'lucide-react';
 import { useEditorStore } from '../store/useEditorStore';
 import { useUndoRedo } from '../store/useEditorStore';
@@ -24,7 +21,7 @@ import { useUndoRedo } from '../store/useEditorStore';
 const TOOLS_2D = [
     { id: 'select', label: 'Select', icon: MousePointer2, shortcut: 'V' },
     { id: 'move',   label: 'Move',   icon: Move,           shortcut: 'M' },
-    { id: 'wall',   label: 'Wall',   icon: Wall,           shortcut: 'W' },
+    { id: 'wall',   label: 'Wall',   icon: Pencil,         shortcut: 'W' },
     { id: 'room',   label: 'Room',   icon: Square,         shortcut: 'R' },
 ];
 

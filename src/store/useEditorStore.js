@@ -37,17 +37,28 @@ const defaultLevel = () => ({
 // ─── Persistence — Firestore (primary) + IndexedDB (offline cache) ─────────
 const DB_KEY = 'archai-editor-state';
 
-/** Load: try Firestore first, fall back to IndexedDB */
+/** Load: try Firestore first (with 4s timeout), fall back to IndexedDB */
+const withTimeout = (promise, ms) =>
+    Promise.race([
+        promise,
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Firestore timeout')), ms)
+        ),
+    ]);
+
 const loadState = async () => {
     try {
-        const snap = await getDoc(doc(db, 'projects', 'default'));
+        const snap = await withTimeout(
+            getDoc(doc(db, 'projects', 'default')),
+            4000
+        );
         if (snap.exists()) {
             const data = snap.data();
             await set(DB_KEY, data).catch(() => {});
             return data;
         }
     } catch {
-        // Firestore unavailable — try local cache
+        // Firestore unavailable or timed out — try local cache
     }
     try {
         const saved = await get(DB_KEY);
@@ -160,10 +171,9 @@ const storeSlice = (set, get) => ({
      * Clears the active level, then populates rooms, walls, doors, windows.
      */
     loadScene: (layout) => {
-        if (!layout || !Array.isArray(layout.rooms)) return;
+        if (!layout) return;
 
         const { sites, activeLevelId } = get();
-        // Resolve target level
         const level = activeLevelId
             ? findNode(sites, activeLevelId)
             : sites[0]?.children?.[0]?.children?.[0];
@@ -174,56 +184,53 @@ const storeSlice = (set, get) => ({
         // 1. Clear existing content
         let next = deepClearLevel(sites, levelId);
 
-        // 2. Add rooms
-        for (const room of layout.rooms) {
+        // 2. Add rooms — preserve all fields as-is for the renderer
+        for (const room of (layout.rooms || [])) {
             next = deepAddRoom(next, levelId, {
                 ...room,
                 id: room.id || uid(),
-                type: 'room',
-                roomType: room.type,   // store original type on roomType
-                name: room.label || room.type,
-                // z → y for internal 2D plane (legacy compat)
-                y: room.z,
-                height: room.depth,    // depth in schema = height in 2D canvas
+                // Keep x/y/width/height exactly as backend sends them (metres)
+                x: room.x ?? 0,
+                y: room.y ?? 0,
+                width: room.width ?? 4,
+                height: room.height ?? 4,
+                // Store the room category in both type and roomType
+                roomType: room.type || room.name || 'Room',
+                name: room.name || room.type || 'Room',
             });
         }
 
-        // 3. Add walls from schema walls[]
-        const wallHeight = layout.rooms[0]?.height ?? 2.8;
+        // 3. Add walls — support both {x1,y1,x2,y2} and {x1,z1,x2,z2} formats
+        const defaultWallHeight = 3.0;
         for (const w of (layout.walls || [])) {
+            const x1 = w.x1 ?? 0;
+            const y1 = w.y1 ?? w.z1 ?? 0;  // backend may use y1 or z1
+            const x2 = w.x2 ?? 0;
+            const y2 = w.y2 ?? w.z2 ?? 0;
             next = deepAddElement(next, levelId, {
                 id: w.id || uid(),
                 type: 'wall',
                 name: 'Wall',
-                start: [w.x1, w.z1],
-                end:   [w.x2, w.z2],
+                start: [x1, y1],
+                end:   [x2, y2],
                 thickness: w.thickness ?? 0.2,
-                height: wallHeight,
+                height: w.height ?? defaultWallHeight,
             });
         }
 
-        // 4. Add doors and windows as elements
+        // 4. Add doors and windows
         for (const d of (layout.doors || [])) {
             next = deepAddElement(next, levelId, {
-                id: d.id || uid(),
-                type: 'door',
-                name: 'Door',
-                roomId: d.roomId,
-                wall: d.wall,
-                position: d.position,
+                id: d.id || uid(), type: 'door', name: 'Door',
+                roomId: d.roomId, wall: d.wall, position: d.position,
                 width: d.width ?? 0.9,
             });
         }
         for (const w of (layout.windows || [])) {
             next = deepAddElement(next, levelId, {
-                id: w.id || uid(),
-                type: 'window',
-                name: 'Window',
-                roomId: w.roomId,
-                wall: w.wall,
-                position: w.position,
-                width: w.width ?? 1.2,
-                height: w.height ?? 1.2,
+                id: w.id || uid(), type: 'window', name: 'Window',
+                roomId: w.roomId, wall: w.wall, position: w.position,
+                width: w.width ?? 1.2, height: w.height ?? 1.2,
                 sillHeight: w.sillHeight ?? 0.9,
             });
         }

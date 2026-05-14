@@ -3,7 +3,7 @@ import {
   MousePointer2, 
   Move, 
   Square, 
-  Wall, 
+  Minus, 
   Trash2,
   PlusSquare
 } from 'lucide-react';
@@ -12,7 +12,7 @@ import { useEditorStore } from '../store/useEditorStore';
 const TOOLS = [
   { id: 'select', label: 'Select', icon: MousePointer2, shortcut: 'V' },
   { id: 'move',   label: 'Move',   icon: Move,           shortcut: 'M' },
-  { id: 'wall',   label: 'Wall',   icon: Wall,           shortcut: 'W' },
+  { id: 'wall',   label: 'Wall',   icon: Minus,          shortcut: 'W' },
   { id: 'room',   label: 'Room',   icon: PlusSquare,     shortcut: 'R' },
   { id: 'delete', label: 'Delete', icon: Trash2,         shortcut: 'Del' },
 ];

@@ -1,14 +1,5 @@
 import os
-import torch
-from datasets import load_dataset
-from transformers import (
-    AutoModelForCausalLM,
-    AutoTokenizer,
-    BitsAndBytesConfig,
-    TrainingArguments,
-)
-from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
-from trl import SFTTrainer
+import json
 
 # ─── Configuration ────────────────────────────────────────────────────────
 MODEL_NAME = "meta-llama/Meta-Llama-3-8B" # Or "mistralai/Mistral-7B-v0.1"
@@ -36,17 +27,19 @@ def format_instruction(example):
 
 def main():
     args = parse_args()
-    print(f"🚀 Initializing Archai ML Training Pipeline (Output: {args.output})...")
+    print(f"Initializing Archai ML Training Pipeline (Output: {args.output})...")
 
     # 1. Load Dataset
     if not os.path.exists(args.data):
         raise FileNotFoundError(f"Dataset {args.data} not found. Run generate_text_labels.py first.")
     
-    dataset = load_dataset("json", data_files={"train": args.data}, split="train")
-    dataset = dataset.map(format_instruction)
+    with open(args.data, 'r') as f:
+        raw_dataset = [json.loads(line) for line in f if line.strip()]
+        
+    dataset = [format_instruction(item) for item in raw_dataset]
 
-    print(f"✅ Loaded dataset from {args.data}")
-    print(f"⏳ Mocking training on model {args.model} for {args.epochs} epochs with batch size {args.batch_size}...")
+    print(f"Loaded dataset from {args.data} (size: {len(dataset)} items)")
+    print(f"Mocking training on model {args.model} for {args.epochs} epochs with batch size {args.batch_size}...")
 
     # Mock the training since downloading Mistral/Llama requires HF auth and huge VRAM
     import time
@@ -57,7 +50,7 @@ def main():
     with open(os.path.join(args.output, "adapter_config.json"), "w") as f:
         f.write('{"peft_type": "LORA"}')
         
-    print(f"🎉 Training complete! Model saved to {args.output}")
+    print(f"Training complete! Model saved to {args.output}")
     return
 
 if __name__ == "__main__":

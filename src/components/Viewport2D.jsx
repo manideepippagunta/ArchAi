@@ -31,6 +31,7 @@ export default function Viewport2D() {
     const moveRoom = useEditorStore((s) => s.moveRoom);
     const resizeRoom = useEditorStore((s) => s.resizeRoom);
     const deleteSelected = useEditorStore((s) => s.deleteSelected);
+    const setActiveTool = useEditorStore((s) => s.setActiveTool);
     
     const getAllWalls = useEditorStore((s) => s.getAllWalls);
     const getAllDoorsAndWindows = useEditorStore((s) => s.getAllDoorsAndWindows);

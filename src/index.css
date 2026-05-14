@@ -19,7 +19,7 @@
   --text-secondary: #475569;
   --text-muted: #94a3b8;
 
-  --glass-blur: blur(24px);
+  --glass-blur: none;
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   --header-h: 52px;
@@ -178,8 +178,7 @@ body {
   align-items: center;
   gap: 16px;
   padding: 0 16px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: var(--glass-blur);
+  background: rgba(255, 255, 255, 0.95);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
 }
@@ -594,8 +593,7 @@ select.prop-input {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -768,8 +766,7 @@ select.prop-input {
   right: 12px;
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 6px 12px;
@@ -810,8 +807,7 @@ select.prop-input {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 8px 12px;
@@ -1201,7 +1197,6 @@ select.prop-input {
   height: auto;
   min-height: 200px;
   background: var(--bg-panel);
-  backdrop-filter: var(--glass-blur);
   border-bottom: 2px solid var(--primary-dim);
   z-index: 150;
   padding: 16px;

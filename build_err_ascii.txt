@@ -1,0 +1,90 @@
+﻿
+> archai@0.0.0 build
+> vite build
+
+[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32mΓ£ô[39m 2370 modules transformed.
+node.exe : [31mΓ£ù[39m 
+Build failed in 5.34s
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo          : 
+    NotSpecified: ([31mΓ£ù  
+  [39m Build failed in 5.34   
+ s:String) [], RemoteExcep    
+tion
+    + FullyQualifiedErrorId : 
+    NativeCommandError
+ 
+[31merror during build:
+[31msrc/components/ToolSideba
+r.jsx (6:2): "Wall" is not 
+exported by "node_modules/luci
+de-react/dist/esm/lucide-react
+.js", imported by "src/compone
+nts/ToolSidebar.jsx".[31m
+file: [36mC:/Users/manid/OneD
+rive/archai/src/components/Too
+lSidebar.jsx:6:2[31m
+[33m
+4:   Move, 
+5:   Square, 
+6:   Wall, 
+     ^
+7:   Trash2,
+8:   PlusSquare
+[31m
+    at getRollupError (file://
+/C:/Users/manid/OneDrive/archa
+i/node_modules/rollup/dist/es/
+shared/parseAst.js:402:41)
+    at error (file:///C:/Users
+/manid/OneDrive/archai/node_mo
+dules/rollup/dist/es/shared/pa
+rseAst.js:398:42)
+    at Module.error (file:///C
+:/Users/manid/OneDrive/archai/
+node_modules/rollup/dist/es/sh
+ared/node-entry.js:17040:16)
+    at Module.traceVariable (f
+ile:///C:/Users/manid/OneDrive
+/archai/node_modules/rollup/di
+st/es/shared/node-entry.js:174
+52:29)
+    at 
+ModuleScope.findVariable (file
+:///C:/Users/manid/OneDrive/ar
+chai/node_modules/rollup/dist/
+es/shared/node-entry.js:15070:
+39)
+    at Identifier.bind (file:/
+//C:/Users/manid/OneDrive/arch
+ai/node_modules/rollup/dist/es
+/shared/node-entry.js:5447:40)
+    at Property.bind (file:///
+C:/Users/manid/OneDrive/archai
+/node_modules/rollup/dist/es/s
+hared/node-entry.js:2829:23)
+    at ObjectExpression.bind (
+file:///C:/Users/manid/OneDriv
+e/archai/node_modules/rollup/d
+ist/es/shared/node-entry.js:28
+25:28)
+    at ArrayExpression.bind (f
+ile:///C:/Users/manid/OneDrive
+/archai/node_modules/rollup/di
+st/es/shared/node-entry.js:282
+5:28)
+    at 
+VariableDeclarator.bind (file:
+///C:/Users/manid/OneDrive/arc
+hai/node_modules/rollup/dist/e
+s/shared/node-entry.js:2829:23
+)[39m

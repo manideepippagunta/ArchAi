@@ -90,7 +90,12 @@ def make_prompts(layout: dict) -> list[str]:
 
     # Shuffle and take random 5-7
     random.shuffle(prompts)
-    return prompts[:random.randint(5, min(7, len(prompts)))]
+    n_prompts = len(prompts)
+    if n_prompts == 0:
+        return []
+    limit = min(7, n_prompts)
+    lower = min(5, limit)
+    return prompts[:random.randint(lower, limit)]
 
 
 def build_training_pairs(input_paths: list[str], output_path: str):

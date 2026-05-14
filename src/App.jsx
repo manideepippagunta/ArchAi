@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useEditorStore } from './store/useEditorStore';
 import Header from './components/Header';
 import SceneTree from './components/SceneTree';
@@ -42,14 +42,16 @@ function LeftPanel() {
   );
 }
 
-export default function App() {
+export function EditorApp() {
   const viewMode = useEditorStore((s) => s.viewMode);
   const hydrate = useEditorStore((s) => s.hydrate);
   const initialized = useEditorStore((s) => s.initialized);
   const setCommandOpen = useEditorStore((s) => s.setCommandOpen);
 
-  // Load from IndexedDB on mount
-  useEffect(() => { hydrate(); }, [hydrate]);
+  // Load from IndexedDB on mount — only once
+  const hydrateRef = useRef(hydrate);
+  hydrateRef.current = hydrate;
+  useEffect(() => { hydrateRef.current(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Global keyboard shortcuts
   useEffect(() => {
@@ -86,10 +88,6 @@ export default function App() {
       if (e.key === 'w' || e.key === 'W') { setActiveTool('wall'); setViewMode('2d'); }
       if (e.key === 'r' || e.key === 'R') setActiveTool('room');
       if (e.key === 'Delete' || e.key === 'Backspace' || e.key === 'x' || e.key === 'X') {
-        const { activeTool } = useEditorStore.getState();
-        if (activeTool === 'delete') {
-            // Already in delete mode? or just trigger delete
-        }
         useEditorStore.getState().deleteSelected();
       }
 
@@ -126,5 +124,49 @@ export default function App() {
       </div>
       <CommandPalette />
     </div>
+  );
+}
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("Runtime UI crash:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: '20px', fontFamily: 'sans-serif', backgroundColor: '#fff8f8', height: '100vh', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+          <h1 style={{ color: '#d32f2f' }}>UI Crash Detected</h1>
+          <p>The application encountered an unexpected runtime error.</p>
+          <pre style={{ background: '#eee', padding: '10px', borderRadius: '4px', maxWidth: '80%' }}>
+            {this.state.error?.toString()}
+          </pre>
+          <button 
+            onClick={() => window.location.reload()} 
+            style={{ marginTop: '20px', padding: '10px 20px', cursor: 'pointer' }}
+          >
+            Restart Application
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <EditorApp />
+    </ErrorBoundary>
   );
 }
