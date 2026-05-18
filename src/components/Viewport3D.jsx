@@ -11,13 +11,13 @@ function WallMesh({ wall }) {
     const transform = buildWallTransform(
         wall.start, wall.end,
         wall.thickness ?? 0.2,
-        2.2, 0
+        3.0, 0
     );
     if (!transform) return null;
     return (
         <mesh position={transform.position} rotation={transform.rotation} castShadow receiveShadow>
             <boxGeometry args={[transform.scale[0], transform.scale[1], transform.scale[2]]} />
-            <meshStandardMaterial color="#f1f5f9" roughness={0.7} metalness={0.15} />
+            <meshStandardMaterial color="#f1f5f9" roughness={0.7} metalness={0.15} transparent opacity={0.7} />
         </mesh>
     );
 }

@@ -3,17 +3,17 @@ import { Html } from '@react-three/drei';
 
 // ─── Rich room color palette ─────────────────────────────────────────────────
 const PALETTE = {
-  bedroom:        '#818cf8',
-  'master suite': '#6366f1',
-  'master bedroom':'#6366f1',
-  livingroom:     '#34d399',
-  'living room':  '#34d399',
-  kitchen:        '#fbbf24',
-  bathroom:       '#38bdf8',
-  bath:           '#38bdf8',
-  dining:         '#f472b6',
-  'entry lobby':  '#a78bfa',
-  entry:          '#a78bfa',
+  bedroom:        '#B4C9E8',
+  'master suite': '#B4C9E8',
+  'master bedroom':'#B4C9E8',
+  livingroom:     '#B8E0C8',
+  'living room':  '#B8E0C8',
+  kitchen:        '#F5DDA8',
+  bathroom:       '#AED9DA',
+  bath:           '#AED9DA',
+  dining:         '#F5C6A8',
+  'entry lobby':  '#D4B8E0',
+  entry:          '#D4B8E0',
   outdoor:        '#4ade80',
   balcony:        '#4ade80',
   storage:        '#94a3b8',
@@ -63,10 +63,10 @@ function getIcon(room) {
 
 // ─── Perimeter walls for each room ───────────────────────────────────────────
 function RoomWalls({ w, h, color }) {
-  const wallH = 2.2;
+  const wallH = 3.0;
   const t = 0.13;
   const hy = wallH / 2;
-  const mat = <meshStandardMaterial color={color} roughness={0.7} metalness={0.1} />;
+  const mat = <meshStandardMaterial color={color} roughness={0.7} metalness={0.1} transparent opacity={0.7} />;
   return (
     <group>
       <mesh position={[0, hy, -(h / 2 - t / 2)]} castShadow receiveShadow>
@@ -252,7 +252,7 @@ export function Room3DRenderer({ rooms }) {
 
             {/* HTML label elevated above tall walls */}
             <Html
-              position={[0, 2.4, 0]}
+              position={[0, 3.2, 0]}
               center
               distanceFactor={14}
               style={{
