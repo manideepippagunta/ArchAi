@@ -1113,34 +1113,40 @@ select.prop-input {
 /* ── Input area ── */
 .chat-input-area {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: flex-end;
-  padding: 10px 10px 12px;
+  padding: 14px 14px 18px;
   border-top: 1px solid var(--border);
-  background: var(--bg-sidebar);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), #ffffff);
+  box-shadow: 0 -12px 24px rgba(0, 0, 0, 0.03);
+  position: relative;
+  z-index: 10;
 }
 
 .chat-input {
   flex: 1;
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  background: #ffffff;
+  border: 2px solid var(--primary-dim);
+  border-radius: 14px;
   color: var(--text-main);
-  font-size: 12px;
-  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 12px 14px;
   outline: none;
   resize: none;
   font-family: inherit;
   line-height: 1.5;
-  min-height: 38px;
-  max-height: 80px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  min-height: 44px;
+  max-height: 120px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.06);
 }
 
 .chat-input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-dim);
+  box-shadow: 0 0 0 4px var(--primary-dim), 0 8px 20px rgba(34, 197, 94, 0.15);
   background: #fff;
+  transform: translateY(-1px);
 }
 
 .chat-input::placeholder {
@@ -1153,12 +1159,12 @@ select.prop-input {
 }
 
 .chat-send {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-muted);
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: none;
+  background: var(--primary-dim);
+  color: var(--primary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1168,11 +1174,23 @@ select.prop-input {
   font-family: inherit;
 }
 
+.chat-send:hover {
+  background: rgba(34, 197, 94, 0.2);
+  color: var(--primary);
+  transform: scale(1.05);
+}
+
 .chat-send.ready {
   background: var(--primary);
   border-color: var(--primary);
   color: white;
-  box-shadow: 0 2px 12px rgba(34, 197, 94, 0.35);
+  box-shadow: 0 6px 16px rgba(34, 197, 94, 0.25);
+}
+
+.chat-send.ready:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.35);
+  transform: translateY(-2px);
 }
 
 .chat-send:disabled {
