@@ -32,44 +32,25 @@ function Floor() {
     );
 }
 
-// ─── Camera Animator — smooth lerp to frame the layout ────────────────────────
-function CameraAnimator({ rooms, controlsRef }) {
+// ─── Scene Setup — centers camera once when layout loads ────────────────────────
+function SceneSetup({ rooms, controlsRef }) {
     const { camera } = useThree();
-    const targetPos  = useRef([15, 12, 15]);
-    const targetLook = useRef([0, 0, 0]);
+    const [centered, setCentered] = useState(false);
 
-    // Recompute ideal camera framing when room count changes
     useEffect(() => {
-        if (!rooms.length) return;
+        if (!rooms.length || centered) return;
         const xs = rooms.flatMap(r => [r.x ?? 0, (r.x ?? 0) + (r.width ?? 4)]);
         const zs = rooms.flatMap(r => [r.y ?? 0, (r.y ?? 0) + (r.height ?? 4)]);
         const cx   = (Math.min(...xs) + Math.max(...xs)) / 2;
         const cz   = (Math.min(...zs) + Math.max(...zs)) / 2;
-        const span = Math.max(
-            Math.max(...xs) - Math.min(...xs),
-            Math.max(...zs) - Math.min(...zs)
-        );
-        targetPos.current  = [cx + 15, 12, cz + 15]; // Fixed 45-degree isometric 3D view
-        targetLook.current = [cx, 0, cz];
-    }, [rooms.length]);
-
-    // Smooth lerp every frame
-    useFrame(() => {
-        const sp = 0.040; // lerp speed — higher = snappier
-        const [tx, ty, tz] = targetPos.current;
-        camera.position.x += (tx - camera.position.x) * sp;
-        camera.position.y += (ty - camera.position.y) * sp;
-        camera.position.z += (tz - camera.position.z) * sp;
-
+        
         if (controlsRef.current) {
-            const [lx, ly, lz] = targetLook.current;
-            const t = controlsRef.current.target;
-            t.x += (lx - t.x) * sp;
-            t.y += (ly - t.y) * sp;
-            t.z += (lz - t.z) * sp;
+            controlsRef.current.target.set(cx, 0, cz);
+            camera.position.set(cx + 18, 14, cz + 18);
             controlsRef.current.update();
+            setCentered(true);
         }
-    });
+    }, [rooms.length, centered, camera, controlsRef]);
 
     return null;
 }
@@ -84,18 +65,21 @@ function Scene() {
 
     return (
         <>
-            {/* Smooth camera animator */}
-            <CameraAnimator rooms={rooms} controlsRef={controlsRef} />
+            {/* Center camera once on load */}
+            <SceneSetup rooms={rooms} controlsRef={controlsRef} />
 
-            {/* Orbit controls — user can still drag manually */}
+            {/* Orbit controls with dollhouse perspective limits */}
             <OrbitControls
                 ref={controlsRef}
-                minPolarAngle={0.1}
-                maxPolarAngle={Math.PI / 2.1}
+                target={[0, 0, 0]}
+                minPolarAngle={Math.PI / 6}
+                maxPolarAngle={Math.PI / 2.2}
                 minDistance={3}
                 maxDistance={160}
                 enableDamping
                 dampingFactor={0.08}
+                autoRotate
+                autoRotateSpeed={0.5}
             />
 
             {/* Lighting — layered for realistic bright architectural look */}
@@ -137,7 +121,7 @@ function Scene() {
 export default function Viewport3D() {
     return (
         <div className="viewport-3d" style={{ width: '100%', height: '100%', position: 'relative' }}>
-            <Canvas shadows camera={{ position: [15, 12, 15], fov: 50 }} gl={{ antialias: true }} dpr={[1, 2]}>
+            <Canvas shadows camera={{ position: [18, 14, 18], fov: 45 }} gl={{ antialias: true }} dpr={[1, 2]}>
                 <group scale={[1.05, 1.05, 1.05]}>
                     <Scene />
                 </group>
