@@ -25,7 +25,7 @@ function WallMesh({ wall }) {
 // ─── Floor ─────────────────────────────────────────────────────────────────────
 function Floor() {
     return (
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} receiveShadow>
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.2, 0]} receiveShadow>
             <planeGeometry args={[200, 200]} />
             <meshStandardMaterial color="#f8fafc" roughness={1.0} metalness={0.0} />
         </mesh>
@@ -100,9 +100,9 @@ function Scene() {
             />
 
             {/* Lighting — layered for realistic bright architectural look */}
-            <ambientLight intensity={0.65} color="#ffffff" />
+            <ambientLight intensity={0.45} color="#ffffff" />
             <directionalLight
-                position={[25, 40, 20]} intensity={1.0} color="#ffffff"
+                position={[25, 40, 20]} intensity={0.85} color="#ffffff"
                 castShadow
                 shadow-mapSize-width={4096} shadow-mapSize-height={4096}
                 shadow-camera-left={-40} shadow-camera-right={40}
@@ -118,7 +118,7 @@ function Scene() {
                 {walls.map(wall => <WallMesh key={wall.id} wall={wall} />)}
                 <Floor />
                 <Grid
-                    position={[0, 0.001, 0]} args={[80, 80]}
+                    position={[0, -0.19, 0]} args={[80, 80]}
                     cellSize={1} cellThickness={0.4} cellColor="#e2e8f0"
                     sectionSize={5} sectionThickness={0.8} sectionColor="#cbd5e1"
                     infiniteGrid
