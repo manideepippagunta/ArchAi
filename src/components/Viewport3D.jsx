@@ -17,7 +17,7 @@ function WallMesh({ wall }) {
     return (
         <mesh position={transform.position} rotation={transform.rotation} castShadow receiveShadow>
             <boxGeometry args={[transform.scale[0], transform.scale[1], transform.scale[2]]} />
-            <meshStandardMaterial color="#1e293b" roughness={0.7} metalness={0.15} />
+            <meshStandardMaterial color="#f1f5f9" roughness={0.7} metalness={0.15} />
         </mesh>
     );
 }
@@ -147,7 +147,8 @@ export default function Viewport3D() {
             {/* HUD */}
             <div className="vp3d-hud" style={{
                 position: 'absolute', bottom: 12, right: 12,
-                background: 'rgba(15,23,42,0.7)', color: '#e2e8f0',
+                background: 'rgba(255, 255, 255, 0.9)', color: '#0f172a',
+                border: '1px solid #e2e8f0',
                 padding: '6px 12px', borderRadius: 8, fontSize: 11,
                 pointerEvents: 'none',
                 display: 'flex', gap: 8,
