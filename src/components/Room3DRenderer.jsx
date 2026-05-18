@@ -242,11 +242,7 @@ export function Room3DRenderer({ rooms }) {
               />
             </mesh>
 
-            {/* Floor shading edge ring */}
-            <mesh receiveShadow position={[0, 0.005, 0]}>
-              <boxGeometry args={[w, 0.01, h]} />
-              <meshStandardMaterial color="#0f172a" transparent opacity={0.12} />
-            </mesh>
+            {/* Removed the flat 2D translucent overlay ring */}
 
             {/* Perimeter walls */}
             <RoomWalls w={w} h={h} color={color} />
