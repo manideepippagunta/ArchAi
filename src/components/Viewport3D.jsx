@@ -49,8 +49,7 @@ function CameraAnimator({ rooms, controlsRef }) {
             Math.max(...xs) - Math.min(...xs),
             Math.max(...zs) - Math.min(...zs)
         );
-        const dist = Math.max(span * 0.55, 8) + 4; // Zoom closer
-        targetPos.current  = [cx + dist * 0.75, dist * 0.85, cz + dist * 0.75]; // Isometric 3D view
+        targetPos.current  = [cx + 15, 12, cz + 15]; // Fixed 45-degree isometric 3D view
         targetLook.current = [cx, 0, cz];
     }, [rooms.length]);
 
@@ -138,7 +137,7 @@ function Scene() {
 export default function Viewport3D() {
     return (
         <div className="viewport-3d" style={{ width: '100%', height: '100%', position: 'relative' }}>
-            <Canvas shadows gl={{ antialias: true }} dpr={[1, 2]}>
+            <Canvas shadows camera={{ position: [15, 12, 15], fov: 50 }} gl={{ antialias: true }} dpr={[1, 2]}>
                 <group scale={[1.05, 1.05, 1.05]}>
                     <Scene />
                 </group>
