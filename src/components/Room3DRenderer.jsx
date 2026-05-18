@@ -3,30 +3,30 @@ import { Html } from '@react-three/drei';
 
 // ─── Rich room color palette ─────────────────────────────────────────────────
 const PALETTE = {
-  bedroom:        '#B4C9E8',
-  'master suite': '#B4C9E8',
+  bedroom:         '#B4C9E8',
+  'master suite':  '#B4C9E8',
   'master bedroom':'#B4C9E8',
-  livingroom:     '#B8E0C8',
-  'living room':  '#B8E0C8',
-  kitchen:        '#F5DDA8',
-  bathroom:       '#AED9DA',
-  bath:           '#AED9DA',
-  dining:         '#F5C6A8',
-  'entry lobby':  '#D4B8E0',
-  entry:          '#D4B8E0',
-  outdoor:        '#4ade80',
-  balcony:        '#4ade80',
-  storage:        '#94a3b8',
-  utility:        '#c084fc',
-  laundry:        '#c084fc',
-  office:         '#2dd4bf',
-  garage:         '#6b7280',
-  staircase:      '#fb923c',
-  pool:           '#0ea5e9',
-  gym:            '#fb923c',
-  cinema:         '#60a5fa',
-  spa:            '#ec4899',
-  default:        '#cbd5e1',
+  livingroom:      '#B8E0C8',
+  'living room':   '#B8E0C8',
+  kitchen:         '#F5DDA8',
+  bathroom:        '#AED9DA',
+  bath:            '#AED9DA',
+  dining:          '#F5C6A8',
+  'entry lobby':   '#D4B8E0',
+  entry:           '#D4B8E0',
+  outdoor:         '#4ade80',
+  balcony:         '#4ade80',
+  storage:         '#94a3b8',
+  utility:         '#c084fc',
+  laundry:         '#c084fc',
+  office:          '#2dd4bf',
+  garage:          '#6b7280',
+  staircase:       '#fb923c',
+  pool:            '#0ea5e9',
+  gym:             '#fb923c',
+  cinema:          '#60a5fa',
+  spa:             '#ec4899',
+  default:         '#cbd5e1',
 };
 
 function getColor(room) {
@@ -45,12 +45,27 @@ function getLabel(room) {
 }
 
 const ICONS = {
-  bedroom: '🛏', kitchen: '🍳', bathroom: '🚿', bath: '🚿',
-  livingroom: '🛋', 'living room': '🛋', dining: '🍽',
-  outdoor: '🌿', balcony: '🌿', garage: '🚗', staircase: '🪜',
-  office: '💻', storage: '📦', utility: '🧺', gym: '💪',
-  spa: '🧖', cinema: '🎬', entry: '🚪', 'entry lobby': '🚪',
+  bedroom:      '🛏',
+  kitchen:      '🍳',
+  bathroom:     '🚿',
+  bath:         '🚿',
+  livingroom:   '🛋',
+  'living room':'🛋',
+  dining:       '🍽',
+  outdoor:      '🌿',
+  balcony:      '🌿',
+  garage:       '🚗',
+  staircase:    '🪜',
+  office:       '💻',
+  storage:      '📦',
+  utility:      '🧺',
+  gym:          '💪',
+  spa:          '🧖',
+  cinema:       '🎬',
+  entry:        '🚪',
+  'entry lobby':'🚪',
 };
+
 function getIcon(room) {
   const raw = (room.roomType || room.type || room.name || '')
     .toLowerCase().replace(/^space\s*/, '').trim();
@@ -66,20 +81,36 @@ function RoomWalls({ w, h, color }) {
   const wallH = 3.0;
   const t = 0.13;
   const hy = wallH / 2;
-  const mat = <meshStandardMaterial color={color} roughness={0.7} metalness={0.1} transparent opacity={0.7} />;
+  const mat = (
+    <meshStandardMaterial
+      color={color}
+      roughness={0.7}
+      metalness={0.1}
+      transparent
+      opacity={0.75}
+    />
+  );
   return (
-    <group>
+    <group position={[0, 0.2, 0]}>
+      {/* Front wall */}
       <mesh position={[0, hy, -(h / 2 - t / 2)]} castShadow receiveShadow>
-        <boxGeometry args={[w, wallH, t]} />{mat}
+        <boxGeometry args={[w, wallH, t]} />
+        {mat}
       </mesh>
+      {/* Back wall */}
       <mesh position={[0, hy, h / 2 - t / 2]} castShadow receiveShadow>
-        <boxGeometry args={[w, wallH, t]} />{mat}
+        <boxGeometry args={[w, wallH, t]} />
+        {mat}
       </mesh>
+      {/* Left wall */}
       <mesh position={[-(w / 2 - t / 2), hy, 0]} castShadow receiveShadow>
-        <boxGeometry args={[t, wallH, h]} />{mat}
+        <boxGeometry args={[t, wallH, h]} />
+        {mat}
       </mesh>
+      {/* Right wall */}
       <mesh position={[w / 2 - t / 2, hy, 0]} castShadow receiveShadow>
-        <boxGeometry args={[t, wallH, h]} />{mat}
+        <boxGeometry args={[t, wallH, h]} />
+        {mat}
       </mesh>
     </group>
   );
@@ -92,7 +123,7 @@ function Bed({ w, h }) {
   const px = -w / 2 + bw / 2 + 0.25;
   const pz = -h / 2 + bh / 2 + 0.25;
   return (
-    <group position={[px, 0, pz]}>
+    <group position={[px, 0.2, pz]}>
       <mesh position={[0, 0.2, 0]} castShadow>
         <boxGeometry args={[bw, 0.4, bh]} />
         <meshStandardMaterial color="#7c3aed" roughness={0.65} />
@@ -108,7 +139,7 @@ function Bed({ w, h }) {
 function Sofa({ w, h }) {
   const sw = Math.min(2.6, w * 0.65);
   return (
-    <group position={[0, 0, h / 2 - 0.55]}>
+    <group position={[0, 0.2, h / 2 - 0.55]}>
       <mesh position={[0, 0.22, 0]} castShadow>
         <boxGeometry args={[sw, 0.44, 0.85]} />
         <meshStandardMaterial color="#0f766e" roughness={0.72} />
@@ -117,7 +148,6 @@ function Sofa({ w, h }) {
         <boxGeometry args={[sw, 0.72, 0.14]} />
         <meshStandardMaterial color="#0f766e" roughness={0.72} />
       </mesh>
-      {/* Coffee table */}
       <mesh position={[0, 0.2, -0.9]} castShadow>
         <boxGeometry args={[sw * 0.55, 0.06, 0.55]} />
         <meshStandardMaterial color="#92400e" roughness={0.5} />
@@ -130,7 +160,7 @@ function KitchenCounter({ w, h }) {
   const cw = Math.max(w - 0.35, 1);
   const ch = Math.max(h * 0.55, 1);
   return (
-    <>
+    <group position={[0, 0.2, 0]}>
       <mesh position={[0, 0.46, -(h / 2 - 0.3)]} castShadow>
         <boxGeometry args={[cw, 0.92, 0.56]} />
         <meshStandardMaterial color="#d97706" roughness={0.38} metalness={0.12} />
@@ -139,7 +169,7 @@ function KitchenCounter({ w, h }) {
         <boxGeometry args={[0.56, 0.92, ch]} />
         <meshStandardMaterial color="#d97706" roughness={0.38} metalness={0.12} />
       </mesh>
-    </>
+    </group>
   );
 }
 
@@ -147,7 +177,7 @@ function DiningTable({ w, h }) {
   const tw = Math.min(1.6, w * 0.55);
   const th = Math.min(1.0, h * 0.5);
   return (
-    <group>
+    <group position={[0, 0.2, 0]}>
       <mesh position={[0, 0.4, 0]} castShadow>
         <boxGeometry args={[tw, 0.06, th]} />
         <meshStandardMaterial color="#92400e" roughness={0.55} />
@@ -166,7 +196,7 @@ function Toilet({ w, h }) {
   const px = w / 2 - 0.4;
   const pz = h / 2 - 0.4;
   return (
-    <group position={[px, 0, pz]}>
+    <group position={[px, 0.2, pz]}>
       <mesh position={[0, 0.28, 0]} castShadow>
         <boxGeometry args={[0.5, 0.55, 0.68]} />
         <meshStandardMaterial color="#f8fafc" roughness={0.3} />
@@ -181,7 +211,7 @@ function Toilet({ w, h }) {
 
 function Desk({ w, h }) {
   return (
-    <group position={[-w / 2 + 0.75, 0, -h / 2 + 0.4]}>
+    <group position={[-w / 2 + 0.75, 0.2, -h / 2 + 0.4]}>
       <mesh position={[0, 0.38, 0]} castShadow>
         <boxGeometry args={[1.4, 0.05, 0.7]} />
         <meshStandardMaterial color="#475569" roughness={0.45} />
@@ -192,7 +222,6 @@ function Desk({ w, h }) {
           <meshStandardMaterial color="#334155" />
         </mesh>
       ))}
-      {/* Monitor */}
       <mesh position={[0, 0.72, -0.28]}>
         <boxGeometry args={[0.55, 0.35, 0.04]} />
         <meshStandardMaterial color="#1e293b" roughness={0.2} metalness={0.4} />
@@ -209,7 +238,8 @@ function Furniture({ room, w, h }) {
   if (raw.includes('kitchen')) return <KitchenCounter w={w} h={h} />;
   if (raw.includes('dining')) return <DiningTable w={w} h={h} />;
   if (raw.includes('bath')) return <Toilet w={w} h={h} />;
-  if (raw.includes('office') || raw.includes('study') || raw.includes('desk')) return <Desk w={w} h={h} />;
+  if (raw.includes('office') || raw.includes('study') || raw.includes('desk'))
+    return <Desk w={w} h={h} />;
   return null;
 }
 
@@ -223,7 +253,7 @@ export function Room3DRenderer({ rooms }) {
         const color = getColor(room);
         const label = getLabel(room);
         const icon  = getIcon(room);
-        const w = Math.max(room.width ?? 4, 0.8);
+        const w = Math.max(room.width  ?? 4, 0.8);
         const h = Math.max(room.height ?? 4, 0.8);
         const cx = (room.x ?? 0) + w / 2;
         const cz = (room.y ?? 0) + h / 2;
@@ -231,28 +261,25 @@ export function Room3DRenderer({ rooms }) {
         return (
           <group key={room.id || `room_${i}`} position={[cx, 0, cz]}>
 
-            {/* Colored floor slab with realistic depth */}
-            <mesh receiveShadow castShadow position={[0, -0.05, 0]}>
-              <boxGeometry args={[w - 0.04, 0.18, h - 0.04]} />
+            {/* ── Floor slab — raised above ground so walls sit on top ── */}
+            <mesh receiveShadow castShadow position={[0, 0.1, 0]}>
+              <boxGeometry args={[w - 0.04, 0.2, h - 0.04]} />
               <meshStandardMaterial
                 color={color}
                 roughness={0.6}
                 metalness={0.05}
-                transparent={false}
               />
             </mesh>
 
-            {/* Removed the flat 2D translucent overlay ring */}
-
-            {/* Perimeter walls */}
+            {/* ── Perimeter walls ── */}
             <RoomWalls w={w} h={h} color={color} />
 
-            {/* Furniture */}
+            {/* ── Furniture ── */}
             <Furniture room={room} w={w} h={h} />
 
-            {/* HTML label elevated above tall walls */}
+            {/* ── HTML label floating above walls ── */}
             <Html
-              position={[0, 3.2, 0]}
+              position={[0, 3.8, 0]}
               center
               distanceFactor={14}
               style={{
@@ -274,6 +301,7 @@ export function Room3DRenderer({ rooms }) {
             >
               <span style={{ fontSize: '15px' }}>{icon}</span> {label}
             </Html>
+
           </group>
         );
       })}
