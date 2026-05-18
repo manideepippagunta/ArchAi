@@ -82,19 +82,17 @@ function Scene() {
                 autoRotateSpeed={0.5}
             />
 
-            {/* Lighting — layered for realistic bright architectural look */}
-            <ambientLight intensity={0.45} color="#ffffff" />
+            {/* User requested lighting configuration */}
+            <ambientLight intensity={0.4} />
             <directionalLight
-                position={[25, 40, 20]} intensity={0.85} color="#ffffff"
+                position={[10, 20, 10]} intensity={1.2}
                 castShadow
                 shadow-mapSize-width={4096} shadow-mapSize-height={4096}
                 shadow-camera-left={-40} shadow-camera-right={40}
                 shadow-camera-top={40} shadow-camera-bottom={-40}
                 shadow-bias={-0.0001}
             />
-            <directionalLight position={[-15, 15, -10]} intensity={0.4} color="#e0f2fe" />
-            <pointLight position={[0, 6, 20]} intensity={0.25} color="#fef3c7" distance={80} />
-            <hemisphereLight args={['#ffffff', '#e2e8f0', 0.45]} />
+            <directionalLight position={[-10, 10, -10]} intensity={0.4} />
 
             <Suspense fallback={null}>
                 <Room3DRenderer rooms={rooms} />
