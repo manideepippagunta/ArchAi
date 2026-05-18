@@ -63,7 +63,7 @@ function getIcon(room) {
 
 // ─── Perimeter walls for each room ───────────────────────────────────────────
 function RoomWalls({ w, h, color }) {
-  const wallH = 1.4;
+  const wallH = 2.2;
   const t = 0.13;
   const hy = wallH / 2;
   const mat = <meshStandardMaterial color={color} roughness={0.7} metalness={0.1} />;
@@ -250,9 +250,9 @@ export function Room3DRenderer({ rooms }) {
             {/* Furniture */}
             <Furniture room={room} w={w} h={h} />
 
-            {/* HTML label */}
+            {/* HTML label elevated above tall walls */}
             <Html
-              position={[0, 0.85, 0]}
+              position={[0, 2.4, 0]}
               center
               distanceFactor={14}
               style={{

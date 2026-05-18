@@ -11,7 +11,7 @@ function WallMesh({ wall }) {
     const transform = buildWallTransform(
         wall.start, wall.end,
         wall.thickness ?? 0.2,
-        1.4, 0
+        2.2, 0
     );
     if (!transform) return null;
     return (
