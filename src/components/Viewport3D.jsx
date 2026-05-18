@@ -11,7 +11,7 @@ function WallMesh({ wall }) {
     const transform = buildWallTransform(
         wall.start, wall.end,
         wall.thickness ?? 0.2,
-        wall.height ?? 3.0, 0
+        0.8, 0
     );
     if (!transform) return null;
     return (
@@ -50,7 +50,7 @@ function CameraAnimator({ rooms, controlsRef }) {
             Math.max(...zs) - Math.min(...zs)
         );
         const dist = Math.max(span * 0.55, 8) + 4; // Zoom closer
-        targetPos.current  = [cx + dist * 0.65, dist * 0.75, cz + dist * 0.65]; // Better angle
+        targetPos.current  = [cx + dist * 0.1, dist * 1.4, cz + dist * 0.5]; // Top-down angled view
         targetLook.current = [cx, 0, cz];
     }, [rooms.length]);
 

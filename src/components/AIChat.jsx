@@ -24,7 +24,7 @@ function ChatMessage({ msg }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             <div className="chat-typing"><span /><span /><span /></div>
             <div style={{ fontSize: 11, color: 'var(--primary)', fontWeight: 600, letterSpacing: '0.03em' }}>
-              Generating AI Architectural Layout…
+              ArchAi is thinking…
             </div>
           </div>
         ) : (
@@ -62,7 +62,7 @@ export default function AIChat() {
     const thinkId = Date.now();
     setMessages(prev => [...prev, {
       id: thinkId, role: 'bot', typing: true,
-      text: 'Generating AI Architectural Layout…',
+      text: 'ArchAi is thinking…',
     }]);
 
     // Step 2 — after 2 s, replace with result and load scene
@@ -189,7 +189,7 @@ export default function AIChat() {
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={handleKey}
-          placeholder="Type: studio, 2 bedroom house, villa…"
+          placeholder="Describe your dream home…"
           rows={2}
         />
         <button

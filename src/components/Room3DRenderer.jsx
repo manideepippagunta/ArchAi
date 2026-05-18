@@ -62,11 +62,11 @@ function getIcon(room) {
 }
 
 // ─── Perimeter walls for each room ───────────────────────────────────────────
-function RoomWalls({ w, h }) {
-  const wallH = 2.9;
+function RoomWalls({ w, h, color }) {
+  const wallH = 0.8;
   const t = 0.13;
   const hy = wallH / 2;
-  const mat = <meshStandardMaterial color="#334155" roughness={0.7} metalness={0.1} />;
+  const mat = <meshStandardMaterial color={color} roughness={0.7} metalness={0.1} />;
   return (
     <group>
       <mesh position={[0, hy, -(h / 2 - t / 2)]} castShadow receiveShadow>
@@ -260,23 +260,23 @@ export function Room3DRenderer({ rooms }) {
               center
               distanceFactor={14}
               style={{
-                color: '#0f172a',
-                background: 'rgba(255,255,255,0.95)',
-                padding: '4px 10px',
-                borderRadius: 12,
-                fontSize: 12,
-                fontWeight: 800,
+                color: '#1e293b',
+                background: 'rgba(255, 255, 255, 0.98)',
+                padding: '6px 12px',
+                borderRadius: 16,
+                fontSize: 13,
+                fontWeight: 700,
                 whiteSpace: 'nowrap',
-                border: `3px solid ${color}`,
-                boxShadow: `0 4px 14px rgba(0,0,0,0.25), 0 0 0 1px ${color}55`,
+                border: `2px solid ${color}`,
+                boxShadow: `0 8px 24px rgba(0,0,0,0.15), 0 0 0 1px ${color}40`,
                 pointerEvents: 'none',
                 userSelect: 'none',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 4,
+                gap: 6,
               }}
             >
-              <span>{icon}</span> {label}
+              <span style={{ fontSize: '15px' }}>{icon}</span> {label}
             </Html>
           </group>
         );
