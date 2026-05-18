@@ -63,7 +63,7 @@ function getIcon(room) {
 
 // ─── Perimeter walls for each room ───────────────────────────────────────────
 function RoomWalls({ w, h, color }) {
-  const wallH = 0.8;
+  const wallH = 1.4;
   const t = 0.13;
   const hy = wallH / 2;
   const mat = <meshStandardMaterial color={color} roughness={0.7} metalness={0.1} />;
@@ -231,12 +231,12 @@ export function Room3DRenderer({ rooms }) {
         return (
           <group key={room.id || `room_${i}`} position={[cx, 0, cz]}>
 
-            {/* Colored floor slab */}
-            <mesh receiveShadow castShadow position={[0, 0.04, 0]}>
-              <boxGeometry args={[w - 0.12, 0.08, h - 0.12]} />
+            {/* Colored floor slab with realistic depth */}
+            <mesh receiveShadow castShadow position={[0, -0.05, 0]}>
+              <boxGeometry args={[w - 0.04, 0.18, h - 0.04]} />
               <meshStandardMaterial
                 color={color}
-                roughness={0.4}
+                roughness={0.6}
                 metalness={0.05}
                 transparent={false}
               />
@@ -256,7 +256,7 @@ export function Room3DRenderer({ rooms }) {
 
             {/* HTML label */}
             <Html
-              position={[0, 0.55, 0]}
+              position={[0, 0.85, 0]}
               center
               distanceFactor={14}
               style={{

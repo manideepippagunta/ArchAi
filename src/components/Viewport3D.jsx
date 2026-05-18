@@ -11,7 +11,7 @@ function WallMesh({ wall }) {
     const transform = buildWallTransform(
         wall.start, wall.end,
         wall.thickness ?? 0.2,
-        0.8, 0
+        1.4, 0
     );
     if (!transform) return null;
     return (
@@ -25,9 +25,9 @@ function WallMesh({ wall }) {
 // ─── Floor ─────────────────────────────────────────────────────────────────────
 function Floor() {
     return (
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]} receiveShadow>
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} receiveShadow>
             <planeGeometry args={[200, 200]} />
-            <meshStandardMaterial color="#ffffff" roughness={0.9} metalness={0.0} />
+            <meshStandardMaterial color="#f8fafc" roughness={1.0} metalness={0.0} />
         </mesh>
     );
 }
@@ -50,7 +50,7 @@ function CameraAnimator({ rooms, controlsRef }) {
             Math.max(...zs) - Math.min(...zs)
         );
         const dist = Math.max(span * 0.55, 8) + 4; // Zoom closer
-        targetPos.current  = [cx + dist * 0.1, dist * 1.4, cz + dist * 0.5]; // Top-down angled view
+        targetPos.current  = [cx + dist * 0.75, dist * 0.85, cz + dist * 0.75]; // Isometric 3D view
         targetLook.current = [cx, 0, cz];
     }, [rooms.length]);
 
@@ -100,18 +100,18 @@ function Scene() {
             />
 
             {/* Lighting — layered for realistic bright architectural look */}
-            <ambientLight intensity={0.75} color="#ffffff" />
+            <ambientLight intensity={0.65} color="#ffffff" />
             <directionalLight
-                position={[20, 35, 15]} intensity={1.15} color="#ffffff"
+                position={[25, 40, 20]} intensity={1.0} color="#ffffff"
                 castShadow
                 shadow-mapSize-width={4096} shadow-mapSize-height={4096}
                 shadow-camera-left={-40} shadow-camera-right={40}
                 shadow-camera-top={40} shadow-camera-bottom={-40}
                 shadow-bias={-0.0001}
             />
-            <directionalLight position={[-15, 15, -10]} intensity={0.5} color="#e0f2fe" />
-            <pointLight position={[0, 4, 20]} intensity={0.35} color="#fef3c7" distance={80} />
-            <hemisphereLight args={['#ffffff', '#f8fafc', 0.6]} />
+            <directionalLight position={[-15, 15, -10]} intensity={0.4} color="#e0f2fe" />
+            <pointLight position={[0, 6, 20]} intensity={0.25} color="#fef3c7" distance={80} />
+            <hemisphereLight args={['#ffffff', '#e2e8f0', 0.45]} />
 
             <Suspense fallback={null}>
                 <Room3DRenderer rooms={rooms} />
